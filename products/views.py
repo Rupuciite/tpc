@@ -11,7 +11,8 @@ def clean():
             row.delete()
         if row.ref=='':
             row.delete()
-
+def notss():
+    return
 
 def product_about(request, slug):
     product = Product.objects.get(slug=slug)
