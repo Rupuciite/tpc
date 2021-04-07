@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+
+	<!-- page title -->
+	<section class="section section--first section--last section--head" >
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="section__wrap">
+						<!-- section title -->
+						<h2 class="section__title">Profile</h2>
+						<!-- end section title -->
+
+						<!-- breadcrumb -->
+						<ul class="breadcrumb">
+							<li class="breadcrumb__item"><a href="./index.html">Home</a></li>
+							<li class="breadcrumb__item breadcrumb__item--active">Profile</li>
+						</ul>
+						<!-- end breadcrumb -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end page title -->
+
+	<!-- section -->
+	<section class="section section--last">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="profile">
+						<div class="profile__user">
+							<div class="profile__avatar">
+								<img src="{%static 'img/user.svg' %}" alt="">
+							</div>
+							<div class="profile__meta">
+								<h3>{{request.user}}</h3>
+								<span> ID: {{request.user.id}}</span>
+							</div>
+						</div>
+
+						<ul class="nav nav-tabs profile__tabs" id="profile__tabs" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link active" data-toggle="tab"  role="tab" aria-controls="tab-1" aria-selected="true">My purchases</a>
+							</li>
+
+							<li class="nav-item">
+								<a class="nav-link"  href="{% url 'Profile:Setting'%}" role="tab" aria-controls="tab-2" aria-selected="false">Settings</a>
+							</li>
+							{% if user.is_superuser %}
+							<li class="nav-item">
+								<a class="nav-link"  href="{% url 'main:Console' %}" role="tab" aria-controls="tab-1" aria-selected="false">Console</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link"  href="{% url 'main:admin_view' %}" role="tab" aria-controls="tab-1" aria-selected="false">admin Commands</a>
+							</li>
+							{%endif%}
+						</ul>
+
+						<button class="profile__logout" type="button">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M304 336v40a40 40 0 01-40 40H104a40 40 0 01-40-40V136a40 40 0 0140-40h152c22.09 0 48 17.91 48 40v40M368 336l80-80-80-80M176 256h256" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path></svg>
+							<span><a style="color:white" href="{%url 'logout'%}">Logout</a></span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<!-- content tabs -->
+			<div class="tab-content">
+				<div class="tab-pane fade active show" id="tab-1" role="tabpanel">
+					<div class="row">
+						<div class="col-12">
+							<div class="table-responsive table-responsive--border">
+								<table class="profile__table">
+									<thead>
+										<tr>
+											<th>№</th>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th>Date</th>
+											<th>Pice</th>
+											<th>Status</th>
+											<th></th>
+										</tr>
+									</thead>
+
+									<tbody>
+										{%for order in orders%}
+										<tr>
+											<td><a href="#">{{order.transaction_id}}</a></td>
+											<td>
+
+											</td>
+											<td></td>
+											<td></td>
+											<td>{{order.date_ordered}}</td>
+											<td><span class="profile__price">{{order.get_cart_total|floatformat:2}}dt</span></td>
+											{%if order.complete == False %}
+											<td><span class="profile__status">not confirmed</span></td>
+											{%else%}
+											<td><span class="profile__status profile__status--confirmed">Confirmed</span></td>
+											{%endif%}
+											<td><button class="profile__delete" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><line x1="368" y1="368" x2="144" y2="144" style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></line><line x1="368" y1="144" x2="144" y2="368" style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></line></svg></button></td>
+										</tr>
+										{%endfor%}
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<!-- paginator -->
+						<div class="col-12">
+							<div class="paginator">
+								<div class="paginator__counter">
+									3 from 9
+								</div>
+
+								<ul class="paginator__wrap">
+									<li class="paginator__item paginator__item--prev">
+										<a href="#">
+											<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><polyline points="244 400 100 256 244 112" style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"></polyline><line x1="120" y1="256" x2="412" y2="256" style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"></line></svg>
+										</a>
+									</li>
+									<li class="paginator__item paginator__item--active"><a href="#">1</a></li>
+									<li class="paginator__item"><a href="#">2</a></li>
+									<li class="paginator__item"><a href="#">3</a></li>
+									<li class="paginator__item paginator__item--next">
+										<a href="#">
+											<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><polyline points="268 112 412 256 268 400" style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"></polyline><line x1="392" y1="256" x2="100" y2="256" style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"></line></svg>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<!-- end paginator -->
+					</div>
+				</div>
+
+
+			</div>
+			<!-- end content tabs -->
+		</div>
+	</section>
+	<!-- end section -->
+
+		{% endblock %}

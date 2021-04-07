@@ -1,0 +1,132 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block Style %}
+	<link rel="stylesheet" href="{% static 'css/panel.css'%}">
+{% endblock%}
+{% block content %}
+
+	<!-- page title -->
+	<section class="section section--first section--last section--head"  >
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="section__wrap">
+						<!-- section title -->
+						<h2 class="section__title">Profile</h2>
+						<!-- end section title -->
+
+						<!-- breadcrumb -->
+						<ul class="breadcrumb">
+							<li class="breadcrumb__item"><a href="./index.html">Home</a></li>
+							<li class="breadcrumb__item breadcrumb__item--active">Profile</li>
+						</ul>
+						<!-- end breadcrumb -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end page title -->
+
+	<!-- section -->
+	<section class="section section--last">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="profile">
+						<div class="profile__user">
+							<div class="profile__avatar">
+								<img src="{% static 'img/user.svg'%}" alt="">
+							</div>
+							<div class="profile__meta">
+								<h3>{{request.user}}</h3>
+								<span> ID: {{request.user.id}}</span>
+							</div>
+						</div>
+
+						<ul class="nav nav-tabs profile__tabs" id="profile__tabs" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link"  href="{% url 'Profile:mypurchases' %}" role="tab" aria-controls="tab-1" aria-selected="false">My purchases</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link"  href="{% url 'Profile:Setting' %}" role="tab" aria-controls="tab-1" aria-selected="false">Settings</a>
+							</li>
+
+							<li class="nav-item">
+							<a class="nav-link active" data-toggle="tab"  role="tab" aria-controls="tab-3" aria-selected="true">Console</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link"  href="{% url 'main:admin_view' %}" role="tab" aria-controls="tab-1" aria-selected="false">admin Commands</a>
+						</li>
+						</ul>
+
+						<button class="profile__logout" type="button">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M304 336v40a40 40 0 01-40 40H104a40 40 0 01-40-40V136a40 40 0 0140-40h152c22.09 0 48 17.91 48 40v40M368 336l80-80-80-80M176 256h256" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path></svg>
+							<span><a style="color:white" href="{%url 'logout'%}">Logout</a></span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+							<main class="main">
+									<section class="content">
+																	<div >
+											<div class="console mobile-full-width queueing">
+						<div class="console-title">
+									<span>Console</span>
+									<a href="#" class="btn btn-white btn-small btn-no-margin log-button"><i class="fas fa-align-left"></i> Historique</a>
+						</div>
+						<div class="out" id="console" onLoad='refresh()'>
+								{% for article in file_content%}
+							<span> {{ article }} </span>
+							<br>
+								{% endfor %}
+
+								<script type = 'text/javascript'>
+
+
+										var input = document.getElementById("myInput");
+		input.addEventListener("keyup", function(event) {
+		  if (event.keyCode === 13) {
+		   event.preventDefault();
+		   document.getElementById("myBtn").click();
+			 setTimeout(function(){
+   window.location.reload(1);
+}, 5000);
+
+		  }
+		});
+
+							 </script>
+						</div>
+						<div class="in">
+							<span class="in-start"><i class="far fa-angle-right" style="color:white;"> > </i></span>
+							<form action=""	method="post">
+								{% csrf_token %}
+							<input id="myInput" type="text" name="Console_command" style="width:1100px">
+							<input type="submit" id="myBtn"  style="color: transparent; background-color: transparent; border-color: transparent; cursor: default;">
+							</form>
+						</div>
+
+					</div>
+				</div>
+
+
+													<script>
+															__uspapi('setUSPLink', 1, function () {
+															}, "ccpa-opt-out");
+
+													</script>
+																					</section>
+
+											</main>
+			<!-- end content tabs -->
+		</div>
+	</section>
+	<!-- end section -->
+
+{% endblock %}

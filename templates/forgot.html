@@ -1,0 +1,45 @@
+
+{% extends 'main_signpage.html' %}
+{% load static %}
+{% block content %}
+
+
+	<div class="sign section--full-bg" data-bg="img/bg2.jpg" style="background: url(&quot;img/bg2.jpg&quot;) center center / cover no-repeat;">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="sign__content">
+						<!-- authorization form -->
+						<form action="" method="POST" class="sign__form">
+							{% csrf_token %}
+
+							<a href="./index.html" class="sign__logo">
+								<img src="{% static 'img/tpc_logo.png'%}" alt="">
+							</a>
+							{% for article in messages%}
+					<p style="color:white"> {{article}} </p>
+						{% endfor %}
+							{% for field in form %}
+					<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+
+
+						<input type="text" class="sign__input" name="{{ field.html_name }}" placeholder="{{ field.html_name }}" id="{{ field.id_for_label }}" value="">
+
+					</div>
+							<p class="form__label" style="color:white">{{ field.errors }}</p>
+
+
+							<button class="sign__btn" type="submit">Send</button>
+
+							<span class="sign__text">We will send a password to your Email</span>
+								{% endfor %}
+						</form>
+						<!-- end authorization form -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end sign in -->
+
+	{% endblock %}

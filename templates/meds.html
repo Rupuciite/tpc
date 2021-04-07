@@ -1,0 +1,209 @@
+{% extends 'main.html' %}
+
+{% load static %}
+{% load django_template_maths %}
+
+{% block content %}
+
+
+<!-- page title -->
+<section class="section section--first section--last section--head" data-bg="img/bg.jpg" style="background: url(&quot;img/bg.jpg&quot;) center top 140px / cover no-repeat;">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="section__wrap">
+					<!-- section title -->
+					<h2 class="section__title">Catalog <span>({{product_number}} products)</span></h2>
+					<!-- end section title -->
+
+					<!-- breadcrumb -->
+					<ul class="breadcrumb">
+						<li class="breadcrumb__item"><a href="./index.html">Home</a></li>
+						<li class="breadcrumb__item breadcrumb__item--active">Catalog</li>
+					</ul>
+					<!-- end breadcrumb -->
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- end page title -->
+
+<!-- section -->
+<section class="section section--last section--catalog">
+	<div class="container">
+		<!-- catalog -->
+		<div class="row catalog">
+			<!-- filter wrap -->
+			<div class="col-12 col-lg-20">
+				<div class="row">
+					<div class="col-12">
+						<div class="filter-wrap">
+							<button class="filter-wrap__btn" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">Open filter</button>
+
+							<div class="collapse filter-wrap__content" id="collapseFilter">
+								<!-- filter -->
+								<div class="filter">
+									<h4 class="filter__title">Filters <button type="button">Clear all</button></h4>
+
+									<div class="filter__group">
+										<label class="filter__label">Keyword:</label>
+										<input type="text" class="filter__input" placeholder="Keyword">
+									</div>
+
+									<div class="filter__group">
+										<label for="sort" class="filter__label">Sort by:</label>
+
+										<div class="filter__select-wrap">
+											<select name="sort" id="sort" class="form__input">
+												<option value="0" style="color:black" selected>Relevance</option>
+												<option value="1" style="color:black">Newest</option>
+												<option value="2" style="color:black">Oldest</option>
+											</select>
+										</div>
+									</div>
+
+
+
+									<div class="filter__group">
+										<label class="filter__label">Platforms:</label>
+										<ul class="filter__checkboxes">
+											{% for categorie in speciality %}
+											<li>
+												<input id="{{categorie.Name}}" type="checkbox" name="{{categorie.Name}}" checked="True">
+												<label for="{{categorie.Name}}">{{categorie.Name}}</label>
+											</li>
+											{%endfor%}
+
+										</ul>
+									</div>
+
+
+
+									<div class="filter__group">
+										<button class="filter__btn" onclick="getLocation()" type="button">APPLY FILTER</button>
+									</div>
+								</div>
+								<script>
+								var pos;
+
+
+
+								  if (navigator.geolocation) {
+								    navigator.geolocation.getCurrentPosition(showPosition);
+								  } else {
+								    console.log("Geolocation is not supported by this browser.");
+								  }
+			$(document).ready( function(e){
+      e.preventDefault();
+      $.ajax(
+
+       type='POST',
+       url = '/santer',
+       data : {
+
+           lat:position.coords.latitude,
+           long: position.coords.longitude
+           csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+         },
+        });
+
+								function showPosition(position) {
+									console.log(position.coords.latitude,position.coords.longitude);
+
+								}
+
+								</script>
+								<!-- end filter -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- end filter wrap -->
+
+			<!-- content wrap -->
+			<div class="col-12 col-lg-80">
+				<div class="row">
+					<!-- card -->
+					{% for product in products %}
+					<div class="col-12 col-sm-6 col-md-4 col-xl-3">
+						<div class="card card--catalog">
+							<a href="{% url 'Santer:details' slug=product.slug  %}" class="card__cover">
+								<img src="https://www.populardiagnostic.com/public/doctor/1293-20201015170414.png" alt="" style="height: 200px;  width: 250px;">
+							</a>
+
+
+
+							<div class="card__title">
+								<h3><a href="{% url 'Santer:details' slug=product.slug  %}">{{product.name}}</a></h3>
+								<span>{{product.speciality}}</span>
+								<span>{{product.get_distance}} Km</span>
+
+							</div>
+
+							<div class="card__actions">
+								<button class="card__buy" type="button">Profile</button>
+								&nbsp&nbsp&nbsp&nbsp
+								<a href="{{product.get_link}}" class="card__buy" type="button">Iteraire</a>
+							</div>
+						</div>
+					</div>
+					<!-- end card -->
+					{%endfor%}
+
+					<!-- paginator -->
+					<div class="col-12">
+						<div class="paginator">
+							<div class="paginator__counter">
+								{%if product_number > 12 %}{% if products.paginator.num_pages == products.number %}{{product_number}}{%else%}{{12|mul:products.number}} {%endif%}{%else%}{{product_number}} {%endif%} from {{product_number}}
+							</div>
+
+							<ul class="paginator__wrap">
+
+								{% if products.has_previous %}
+								<li class="paginator__item"><a href="?{%if search_input %}search-area={{search_input}}&{%endif%}page=1">First</a></li>
+								<li class="paginator__item paginator__item--prev">
+									<a href="?{%if search_input %}search-area={{search_input}}&{%endif%}page={{ products.previous_page_number }}">
+										<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+											<polyline points="244 400 100 256 244 112" style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"></polyline>
+											<line x1="120" y1="256" x2="412" y2="256" style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"></line>
+										</svg>
+									</a>
+								</li>
+								{% endif %}
+								{% for num in products.paginator.page_range %}
+								{% if products.number == num %}
+								<li class="paginator__item paginator__item--active"><a href="?page={{ num }}">{{ num }}</a></li>
+								{% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
+								<li class="paginator__item"><a href="?{%if search_input %}search-area={{search_input}}&{%endif%}page={{ num }}">{{ num }}</a></li>
+								{%endif%}
+
+								{% endfor %}
+								{% if products.has_next %}
+								<li class="paginator__item paginator__item--next">
+									<a href="?{%if search_input %}search-area={{search_input}}&{%endif%}page={{ products.next_page_number }}">
+										<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+											<polyline points="268 112 412 256 268 400" style="fill:none;stroke-linproducts.numberecap:round;stroke-linejoin:round;stroke-width:48px"></polyline>
+											<line x1="392" y1="256" x2="100" y2="256" style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"></line>
+										</svg>
+									</a>
+								</li>
+								<li class="paginator__item"><a href="?{%if search_input %}search-area={{search_input}}&{%endif%}page={{products.paginator.num_pages}}">Last</a></li>
+
+								{%endif%}
+
+							</ul>
+						</div>
+					</div>
+					<!-- end paginator -->
+				</div>
+			</div>
+			<!-- end content wrap -->
+		</div>
+		<!-- end catalog -->
+	</div>
+</section>
+<!-- end section -->
+
+{% endblock %}

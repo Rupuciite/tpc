@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+	<!-- page title -->
+	<section class="section section--first section--last section--head" data-bg="" style="background: url(&quot;&quot;) center top 140px / cover no-repeat;">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="section__wrap">
+						<!-- section title -->
+						<h2 class="section__title">Profile</h2>
+						<!-- end section title -->
+
+						<!-- breadcrumb -->
+						<ul class="breadcrumb">
+							<li class="breadcrumb__item"><a href="./index.html">Home</a></li>
+							<li class="breadcrumb__item breadcrumb__item--active">Profile</li>
+						</ul>
+						<!-- end breadcrumb -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end page title -->
+
+	<!-- section -->
+	<section class="section section--last">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="profile">
+						<div class="profile__user">
+							<div class="profile__avatar">
+								<img src="{%static 'img/user.svg' %}" alt="">
+							</div>
+							<div class="profile__meta">
+								<h3>{{request.user}}</h3>
+								<span> ID: {{request.user.id}}</span>
+							</div>
+						</div>
+
+						<ul class="nav nav-tabs profile__tabs" id="profile__tabs" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link"  href="{% url 'Profile:mypurchases' %}" role="tab" aria-controls="tab-1" aria-selected="false">My purchases</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link"  href="{% url 'Profile:mypurchases' %}" role="tab" aria-controls="tab-1" aria-selected="false">Settings</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link"  href="{% url 'main:Console' %}" role="tab" aria-controls="tab-1" aria-selected="false">Console</a>
+							</li>
+
+								<li class="nav-item">
+								<a class="nav-link active" data-toggle="tab"  role="tab" aria-controls="tab-2" aria-selected="true">admin Commands</a>
+							</li>
+						</ul>
+
+						<button class="profile__logout" type="button">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M304 336v40a40 40 0 01-40 40H104a40 40 0 01-40-40V136a40 40 0 0140-40h152c22.09 0 48 17.91 48 40v40M368 336l80-80-80-80M176 256h256" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path></svg>
+							<span><a style="color:white" href="{%url 'logout'%}">Logout</a></span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<!-- content tabs -->
+			<div class="tab-content">
+
+				<ul class="filter__checkboxes">
+					<table>
+						<tr>
+							<td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+							<td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+							<td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+							<td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+								<td>>&nbsp&nbsp&nbsp>&nbsp&nbsp&nbsp</td>
+							<td>
+							<li>
+								<input id="1" type="radio" name="threadnumbers" checked="True">
+								<label for="1">1 Threads</label>
+							</li>
+						</td>
+							<td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+								<td></td>
+					<td>
+
+					<li>
+						<input id="2" type="radio" name="threadnumbers" >
+						<label for="2">2 Threads</label>
+					</li>
+				</td>
+				<td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+					<td></td>
+				<td>
+				<li>
+					<input id="4" type="radio" name="threadnumbers" >
+					<label for="4">4 Threads</label>
+				</li>
+			</td>
+			<td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+				<td></td>
+			<td>
+			<li>
+				<input id="8" type="radio" name="threadnumbers" >
+				<label for="8">8 Threads</label>
+			</li>
+			</td>
+
+				</tr>
+				</table>
+				</ul>
+				<div class="tab-pane fade active show" id="tab-2" role="tabpanel">
+					<div class="row">
+						<div class="col-12 col-lg-6">
+
+
+							<form  method="GET"   class="form">
+									<h4 class="form__title">Website Generator</h4>
+
+								<input type='text' name='search-area' value="{{search_input}}" class="form__input" placeholder="Search words(use a comma to seperate each query	)">
+								<select class="form__input" >
+
+									<option value="0" style="color:black" >All Categories</option>
+									<option value="Informatique" style="color:black">Informatique</option>
+									<option value="Santé" style="color:black">Santé</option>
+									<option value="Other" style="color:black">autre	</option>
+
+								</select>
+
+								<div class="col-12">
+									<button class="form__btn updateButton" ur_l="{% url 'update' %}" name="change_details" type="submit" last_name="{{request.user.last_name}}" username="{{request.user}}"  first_name="{{request.user.first_name}}" email="{{request.user.email}}">Search</button>
+								</div>
+					</form>
+					</div>
+
+						<div class="col-12 col-lg-6">
+							<form  method="GET"   class="form">
+									<h4 class="form__title">Web Crawler</h4>
+
+								<input type='text' name='search-area' value="{{search_input}}" class="form__input" placeholder="Put a link in here to get sublinks.">
+
+
+								<div class="col-12">
+									<button class="form__btn updateButton" ur_l="{% url 'update' %}" name="change_details" type="submit" last_name="{{request.user.last_name}}" username="{{request.user}}"  first_name="{{request.user.first_name}}" email="{{request.user.email}}">Crawl</button>
+								</div>
+					</form>
+						</div>
+						<div class="col-12 col-lg-6">
+							<form  method="POST"   class="form">
+								{% csrf_token %}
+									<h4 class="form__title">Resellers Information Update</h4>
+
+
+								<select class="form__input" name="dropdown" >
+
+									<option value="update" style="color:black" >All Resellers</option>
+									{% for categorie in Resellers %}
+									<option value="{{categorie.name_fr}}" style="color:black" >{{categorie.name_fr}} </option>
+
+									{%endfor%}
+
+								</select>
+
+								<div class="col-12">
+									<button class="form__btn updateButton" ur_l="{% url 'update' %}" name="change_details" type="submit" last_name="{{request.user.last_name}}" username="{{request.user}}"  first_name="{{request.user.first_name}}" email="{{request.user.email}}">Update</button>
+								</div>
+						</form>
+						</div>
+
+
+
+
+						<!-- end details form -->
+
+						<!-- password form -->
+						<div class="col-12 col-lg-6">
+							<form  method="POST"   class="form">
+								{% csrf_token %}
+									<h4 class="form__title">Resellers Data Update</h4>
+
+
+								<select class="form__input" name="dropdown1" >
+
+									<option value="update" style="color:black" >All Resellers</option>
+									{% for categorie in Resellers %}
+									<option value="{{categorie.name_fr}}" style="color:black" >{{categorie.name_fr}} </option>
+
+									{%endfor%}
+
+								</select>
+								<select class="form__input" name="dropdown1" >
+
+									<option value="update" style="color:black" >All Categories</option>
+									{% for categorie in categories %}
+									<option value="{{categorie.Name}}" style="color:black" >{{categorie.Name}} </option>
+
+									{%endfor%}
+
+								</select>
+								<div class="col-12">
+									<button class="form__btn updateButton" ur_l="{% url 'update' %}" name="change_details" type="submit" last_name="{{request.user.last_name}}" username="{{request.user}}"  first_name="{{request.user.first_name}}" email="{{request.user.email}}">Update</button>
+								</div>
+						</form>
+						</div>
+
+						<div class="col-12 col-lg-6">
+							<form  method="GET"   class="form">
+									<h4 class="form__title">Website Generator</h4>
+
+								<input type='text' name='search-area' value="{{search_input}}" class="form__input" placeholder="I&#39;m searching for...">
+								<select class="form__input" >
+
+									<option value="0" style="color:black" >All Categories</option>
+									{% for categorie in categories %}
+									<option value="{{categorie.Name}}" style="color:black">{{categorie.Name}}</option>
+									{%endfor%}
+
+								</select>
+
+								<div class="col-12">
+									<button class="form__btn updateButton" ur_l="{% url 'update' %}" name="change_details" type="submit" last_name="{{request.user.last_name}}" username="{{request.user}}"  first_name="{{request.user.first_name}}" email="{{request.user.email}}">Save</button>
+								</div>
+</form>
+						</div>
+						<div class="col-12 col-lg-6">
+							<form  method="GET"   class="form">
+									<h4 class="form__title">Website Generator</h4>
+
+								<input type='text' name='search-area' value="{{search_input}}" class="form__input" placeholder="I&#39;m searching for...">
+								<select class="form__input" >
+
+									<option value="0" style="color:black" >All Categories</option>
+									{% for categorie in categories %}
+									<option value="{{categorie.Name}}" style="color:black">{{categorie.Name}}</option>
+									{%endfor%}
+
+								</select>
+
+								<div class="col-12">
+									<button class="form__btn updateButton" ur_l="{% url 'update' %}" name="change_details" type="submit" last_name="{{request.user.last_name}}" username="{{request.user}}"  first_name="{{request.user.first_name}}" email="{{request.user.email}}">Save</button>
+								</div>
+</form>
+						</div>
+						<!-- end password form -->
+					</div>
+				</div>
+			</div>
+			<!-- end content tabs -->
+		</div>
+	</section>
+	<!-- end section -->
+
+	{% endblock %}

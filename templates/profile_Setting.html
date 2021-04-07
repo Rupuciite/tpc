@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+	<!-- page title -->
+	<section class="section section--first section--last section--head" data-bg="" style="background: url(&quot;&quot;) center top 140px / cover no-repeat;">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="section__wrap">
+						<!-- section title -->
+						<h2 class="section__title">Profile</h2>
+						<!-- end section title -->
+
+						<!-- breadcrumb -->
+						<ul class="breadcrumb">
+							<li class="breadcrumb__item"><a href="./index.html">Home</a></li>
+							<li class="breadcrumb__item breadcrumb__item--active">Profile</li>
+						</ul>
+						<!-- end breadcrumb -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end page title -->
+
+	<!-- section -->
+	<section class="section section--last">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="profile">
+						<div class="profile__user">
+							<div class="profile__avatar">
+									<img src="{%static 'img/user.svg' %}" alt="">
+								</div>
+								<div class="profile__meta">
+									<h3>{{request.user}}</h3>
+									<span> ID: {{request.user.id}}</span>
+								</div>
+						</div>
+
+						<ul class="nav nav-tabs profile__tabs" id="profile__tabs" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link"  href="{% url 'Profile:mypurchases' %}" role="tab" aria-controls="tab-1" aria-selected="false">My purchases</a>
+							</li>
+
+								<li class="nav-item">
+								<a class="nav-link active" data-toggle="tab"  role="tab" aria-controls="tab-2" aria-selected="true">Settings</a>
+							</li>
+							{% if user.is_superuser %}
+							<li class="nav-item">
+								<a class="nav-link"  href="{% url 'main:Console' %}" role="tab" aria-controls="tab-1" aria-selected="false">Console</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link"  href="{% url 'main:admin_view' %}" role="tab" aria-controls="tab-1" aria-selected="false">admin Commands</a>
+							</li>
+							{%endif%}
+						</ul>
+
+						<button class="profile__logout" type="button">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M304 336v40a40 40 0 01-40 40H104a40 40 0 01-40-40V136a40 40 0 0140-40h152c22.09 0 48 17.91 48 40v40M368 336l80-80-80-80M176 256h256" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path></svg>
+							<span><a style="color:white" href="{%url 'logout'%}">Logout</a></span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<!-- content tabs -->
+			<div class="tab-content">
+
+
+				<div class="tab-pane fade active show" id="tab-2" role="tabpanel">
+					<div class="row">
+						<!-- details form -->
+						<div class="col-12 col-lg-6">
+
+							<form action="#" method="post" class="form">
+								{% csrf_token %}
+								<div class="row">
+									<div class="col-12">
+										<h4 class="form__title">	{% for article in messages%}
+					 {{article}}
+							{% endfor %}</h4>
+										<h4 class="form__title">Profile details</h4>
+									</div>
+
+									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+										<label class="form__label" for="username">Username</label>
+										<input id="username" type="text" name="username" class="form__input" value="{{request.user}}" readonly>
+									</div>
+
+									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+										<label class="form__label" for="email">Email</label>
+										<input id="email" type="text" name="email" class="form__input" value="{{request.user.email}}" >
+									</div>
+
+									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+										<label class="form__label" for="firstname" >First Name</label>
+										<input id="firstname" type="text" name="firstname" class="form__input" value="{{request.user.first_name}}" >
+									</div>
+
+									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+										<label class="form__label" for="lastname">Last Name</label>
+										<input id="lastname" type="text" name="lastname" class="form__input" value="{{request.user.last_name}}" >
+									</div>
+
+									<div class="col-12">
+										<button class="form__btn updateButton" ur_l="{% url 'update' %}" name="change_details" type="submit" last_name="{{request.user.last_name}}" username="{{request.user}}"  first_name="{{request.user.first_name}}" email="{{request.user.email}}">Save</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<!-- end details form -->
+
+						<!-- password form -->
+						<div class="col-12 col-lg-6">
+							<form action="#" method="POST" class="form">
+								{% csrf_token %}
+
+									<div class="col-12">
+										<h4 class="form__title">Change password</h4>
+									</div>
+
+									<div class="row">
+											{% for field in form %}
+									<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+
+											<p class="form__label" for="{{ field.html_name }}">&nbsp</p>
+										<input type="password" class="sign__input" name="{{ field.html_name }}" placeholder="{{ field.html_name }}" id="{{ field.id_for_label }}" value="">
+													<ul class="form__label" style="color:white">{{field.errors}}</ul>
+									</div>
+
+											{% endfor %}
+
+
+									<div class="col-12">
+										<button class="form__btn" name="pass_changer" type="submit">Change</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<!-- end password form -->
+					</div>
+				</div>
+			</div>
+			<!-- end content tabs -->
+		</div>
+	</section>
+	<!-- end section -->
+
+	{% endblock %}

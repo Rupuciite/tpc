@@ -1,0 +1,143 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+<!-- page title -->
+<section class="section section--first section--last section--head" >
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="section__wrap">
+					<!-- section title -->
+					<h2 class="section__title">Checkout</h2>
+					<!-- end section title -->
+
+					<!-- breadcrumb -->
+					<ul class="breadcrumb">
+						<li class="breadcrumb__item"><a href="./index.html">Home</a></li>
+						<li class="breadcrumb__item breadcrumb__item--active">Checkout</li>
+					</ul>
+					<!-- end breadcrumb -->
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- end page title -->
+
+<!-- section -->
+<div class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col-12 col-lg-8">
+				<!-- cart -->
+				<div class="cart">
+					<div class="table-responsive">
+						<table class="cart__table">
+							<thead>
+								<tr>
+									<th>Product</th>
+									<th>Title</th>
+									<th>Quantity</th>
+									<th></th>
+									<th>Price</th>
+									<th>total </th>
+									<th></th>
+								</tr>
+							</thead>
+
+							<tbody>
+								{% for item in items %}
+								<tr>
+									<td>
+										<div class="cart__img">
+											<img src="{% if item.product.image_url  %} {{item.product.image_url}} {% else %}{{item.product.imageURL}} {% endif %}" alt="">
+										</div>
+									</td>
+									<td>{{item.product.name_fr}}</td>
+									<td><table> <tr> <td>{{item.quantity}}</td> <td><img data-product={{item.product.id}} data-action="add" class="update-cart" src="{% static 'img/add.png'%}" width="20" height="20" alt=""><br></td></tr><tr><td></td><td> <img data-product={{item.product.id}} data-action="remove" class="update-cart"
+											src="{% static 'img/minus.png'%}" width="20" height="20" alt=""></td></tr> </table> </td>
+									<td>  </td>
+												<td><span class="cart__price">{{item.product.price_min}}dt</span></td>
+									<td><span class="cart__price">{% widthratio item.product.price_min 1 item.quantity %}dt</span></td>
+
+
+									<td><button data-product={{item.product.id}} data-action="delete" class="cart__delete update-cart" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+												<line x1="368" y1="368" x2="144" y2="144" style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></line>
+												<line x1="368" y1="144" x2="144" y2="368" style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></line>
+											</svg></button></td>
+								</tr>
+								{%endfor%}
+
+							</tbody>
+						</table>
+					</div>
+
+					<div class="cart__info">
+						<div class="cart__total">
+							<p>Total:</p>
+							<span>{{order.get_cart_total|floatformat:2}}dt</span>
+						</div>
+
+
+					</div>
+				</div>
+				<!-- end cart -->
+			</div>
+
+			<div class="col-12 col-lg-4">
+				<!-- checkout -->
+				<form action="{% url 'checkout' %}#" class="form form--first form--coupon">
+					<input type="text" class="form__input" placeholder="Coupon code">
+					<button type="button" class="form__btn">Apply</button>
+				</form>
+				<!-- end checkout -->
+
+				<!-- checkout -->
+				<form action="{% url 'checkout' %}#" class="form">
+					<input type="text" name="name" class="form__input" placeholder="John Doe">
+					<input type="text" name="email" class="form__input" placeholder="gg@template.buy">
+					<input type="text" name="phone" class="form__input" placeholder="+1 234 567-89-00">
+					<select name="systems" class="form__select">
+						<option value="visa">Visa</option>
+						<option value="mastercard">Mastercard</option>
+						<option value="paypal">Paypal</option>
+					</select>
+					<button type="button" class="form__btn">Complete</button>
+				</form>
+				<!-- end checkout -->
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end section -->
+
+<!-- section -->
+<div class="section section--last">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="partners owl-carousel owl-loaded">
+
+
+
+
+
+
+
+
+
+
+					<div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div>
+					<div class="owl-dots disabled"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end section -->
+
+{% endblock %}
